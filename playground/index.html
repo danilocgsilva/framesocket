@@ -26,7 +26,12 @@
             if (type === "good") {
                 info.style.color = "#0a0";
             }
+            if (type === "past") {
+                info.style.color = "#aaa";
+            }
         }
+
+        let open = false;
 
         let button = document.getElementsByTagName('button')[0];
         
@@ -35,10 +40,18 @@
             ws.onopen = () => {
                 infoHtml("Connected!", "good")
                 alert("Connected!!");
+                open = true;
             };
             ws.onerror = () => {
                 infoHtml("Error on connecting trial", "error")
                 alert("Error at websocket connecting. Check if teh websocket server is working.")
+            }
+            ws.onclose = function(ws) {
+                if (open) {
+                    infoHtml("Server disabled.", "past");
+                    alert("Server disabled.");
+                }
+                open = false;
             }
         }
     </script>
