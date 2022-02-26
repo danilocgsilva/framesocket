@@ -13,14 +13,31 @@
 
     <button>Connect</button>
 
+    <div id="infos"></div>
+
     <script>
+        
+        let infoHtml = function(message, type) {
+            let info = document.getElementById("infos");
+            info.innerHTML = message
+            if (type === "error") {
+                info.style.color = "#f00";
+            }
+            if (type === "good") {
+                info.style.color = "#0a0";
+            }
+        }
+
         let button = document.getElementsByTagName('button')[0];
+        
         button.onclick = function() {
             const ws = new WebSocket("ws://0.0.0.0:9501");
             ws.onopen = () => {
-                alert("Conectado!");
+                infoHtml("Connected!", "good")
+                alert("Connected!!");
             };
             ws.onerror = () => {
+                infoHtml("Error on connecting trial", "error")
                 alert("Error at websocket connecting. Check if teh websocket server is working.")
             }
         }
